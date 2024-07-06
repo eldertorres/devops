@@ -1,0 +1,30 @@
+name: nexxgen-cs-dbs
+services:
+    server:
+        container_name: mssql
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=yourpassword
+        hostname: mssql1
+        ports:
+            - 1433:1433
+        volumes:
+            - mssqlvolume:/var/opt/mssql
+        image: mcr.microsoft.com/mssql/server:2022-latest
+    firebird:
+        container_name: firebird
+        volumes:
+            - firebirdvolume:/firebird
+        hostname: firebird1
+        environment:
+            - ISC_PASSWORD=masterkey
+        ports:
+            - 3050:3050
+        image: docker.io/jacobalberty/firebird:3.0.10
+volumes:
+    mssqlvolume:
+        external: true
+        name: mssqlvolume
+    firebirdvolume:
+        external: true
+        name: firebirdvolume
